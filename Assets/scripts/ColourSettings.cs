@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu()]
-public class ShapeSettings : ScriptableObject
+public class ColourSettings : ScriptableObject
 {
-    public float planetRadius;
+    public Color planetColour;
 }

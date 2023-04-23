@@ -8,18 +8,22 @@ public class Planet : MonoBehaviour
     [Range(2, 256)]
     public int resolution = 10;
 
+    public ColourSettings colourSettings;
+    public ShapeSettings shapeSettings;
+    ShapeGenerator shapeGenerator;
+
     [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
     private void OnValidate()
     {
-        Initialize();
-        GenerateMesh();
+        GeneratePlanet();
     }
 
     void Initialize()
     {
+        shapeGenerator = new ShapeGenerator(shapeSettings);
         if (meshFilters == null || meshFilters.Length == 0)
         {
             meshFilters = new MeshFilter[6];
@@ -40,9 +44,37 @@ public class Planet : MonoBehaviour
                 meshFilters[i].sharedMesh = new Mesh();
             }
 
-            terrainFaces[i] = new TerrainFace(meshFilters[i].sharedMesh, resolution, directions[i]);
+            terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
         }
     }
+
+    // laver en helt ny planet med mesh og alt
+    public void GeneratePlanet()
+    {
+        Initialize();
+        GenerateMesh();
+        GenerateColours();
+    }
+
+    // ændrer kun på planetens form
+    public void OnShapeSettingsUpdated()
+    {
+
+
+        Initialize();
+        GenerateMesh();
+
+    }
+    // ændrer kun på planetens farve
+    public void OnColourSettingsUpdated()
+    {
+
+        Initialize();
+        GenerateColours();
+
+    }
+
+
 
     void GenerateMesh()
     {
@@ -51,4 +83,15 @@ public class Planet : MonoBehaviour
             face.ConstructMesh();
         }
     }
+
+    void GenerateColours()
+    {
+        foreach (MeshFilter mf in meshFilters)
+        {
+            mf.GetComponent<MeshRenderer>().sharedMaterial.color = colourSettings.planetColour;
+
+
+        }
+    }
+
 }
