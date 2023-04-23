@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TerrainFace
 {
+
     ShapeGenerator shapeGenerator;
     Mesh mesh;
     int resolution;
@@ -35,7 +36,7 @@ public class TerrainFace
                 int i = x + y * resolution;
                 Vector2 percent = new Vector2(x, y) / (resolution - 1);
                 Vector3 pointOnUnitCube = localUp + (percent.x - .5f) * 2 * axisA + (percent.y - .5f) * 2 * axisB;
-                Vector3 pointOnUnitSphere = pointOnUnitCubeToPointOnUnitSphere(pointOnUnitCube);
+                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
                 vertices[i] = shapeGenerator.CalculatePointOnPlanet(pointOnUnitSphere);
 
                 if (x != resolution - 1 && y != resolution - 1)
@@ -57,14 +58,6 @@ public class TerrainFace
         mesh.RecalculateNormals();
     }
 
-
-
-
-
-
-
-
-
     public static Vector3 pointOnUnitCubeToPointOnUnitSphere(Vector3 p)
     {
         float x2 = p.x * p.x;
@@ -77,8 +70,5 @@ public class TerrainFace
         return new Vector3(x, y, z);
 
     }
-
-
-
 
 }

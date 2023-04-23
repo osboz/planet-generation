@@ -13,46 +13,16 @@ public class PlanetEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        using (var check = new EditorGUI.ChangeCheckScope())
-        {
-            base.OnInspectorGUI();
-            if (check.changed)
-            {
-                planet.GeneratePlanet();
-            }
-        }
+        base.OnInspectorGUI();
 
-        if (GUILayout.Button("Generate Planet"))
-        {
-            planet.GeneratePlanet();
-        }
-
-        DrawSettingsEditor(planet.shapeSettings, planet.OnShapeSettingsUpdated, ref planet.shapeSettingsFoldout, ref shapeEditor);
-        DrawSettingsEditor(planet.colourSettings, planet.OnColourSettingsUpdated, ref planet.colourSettingsFoldout, ref colourEditor);
+        DrawSettingsEditor(planet.colourSettings);
+        DrawSettingsEditor(planet.shapeSettings);
     }
 
-    void DrawSettingsEditor(Object settings, System.Action onSettingsUpdated, ref bool foldout, ref Editor editor)
+    void DrawSettingsEditor(Object settings)
     {
-        if (settings != null)
-        {
-            foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);
-            using (var check = new EditorGUI.ChangeCheckScope())
-            {
-                if (foldout)
-                {
-                    CreateCachedEditor(settings, null, ref editor);
-                    editor.OnInspectorGUI();
-
-                    if (check.changed)
-                    {
-                        if (onSettingsUpdated != null)
-                        {
-                            onSettingsUpdated();
-                        }
-                    }
-                }
-            }
-        }
+        Editor editor = CreateEditor(settings);
+        editor.OnInspectorGUI();
     }
 
     private void OnEnable()
