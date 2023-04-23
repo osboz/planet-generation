@@ -1,3 +1,7 @@
+// Planet-klassen er ansvarlig for at generere planeten ud fra de givne ShapeSettings og ColourSettings.
+// Klassen opretter mesh-filtre og TerrainFace-objekter til hver side af planeten.
+// Klassen indeholder også metoder til at generere planetens mesh og farver.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,33 +9,49 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
 
+    // Angiver antallet af quads i meshet
     [Range(2, 256)]
     public int resolution = 10;
 
+    public enum FaceRenderMask { All, Top, Bottom, Left, Right, Front, Back };
+    public FaceRenderMask faceRenderMask;
+
+    // Angiver, om planeten automatisk skal opdateres, når en indstilling ændres
+    public bool autoUpdate = false;
+
+    // Referencer til ColourSettings- og ShapeSettings-objekterne
     public ColourSettings colourSettings;
     public ShapeSettings shapeSettings;
+
+    // Angiver, om farve- og form-indstillingerne er foldet ud i Unity-editoren
+    [HideInInspector]
+    public bool shapeSettingsFoldout, colourSettingsFoldout;
+
+    // Objektet, der genererer planetens form
     ShapeGenerator shapeGenerator;
 
+    // Mesh-filtrene og TerrainFace-objekterne til hver side af planeten
     [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
-    private void OnValidate()
-    {
-        GeneratePlanet();
-    }
-
+    // Opretter ShapeGenerator- og TerrainFace-objekterne til hver side af planeten
     void Initialize()
     {
         shapeGenerator = new ShapeGenerator(shapeSettings);
+
+        // Opret meshFilters-arrayet, hvis det ikke allerede er gjort
         if (meshFilters == null || meshFilters.Length == 0)
         {
             meshFilters = new MeshFilter[6];
         }
+
         terrainFaces = new TerrainFace[6];
 
+        // Vector3-arrayet med retningsvektorer for hver side af planeten
         Vector3[] directions = { Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
 
+        // Opretter mesh-filtre og TerrainFace-objekter til hver side af planeten
         for (int i = 0; i < 6; i++)
         {
             if (meshFilters[i] == null)
@@ -45,10 +65,12 @@ public class Planet : MonoBehaviour
             }
 
             terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
+            bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
+            meshFilters[i].gameObject.SetActive(renderFace);
         }
     }
 
-    // laver en helt ny planet med mesh og alt
+    // Genererer en helt ny planet med mesh og farver
     public void GeneratePlanet()
     {
         Initialize();
@@ -56,41 +78,40 @@ public class Planet : MonoBehaviour
         GenerateColours();
     }
 
-    // ændrer kun på planetens form
+    // Opdaterer planetens form, når ShapeSettings ændres
     public void OnShapeSettingsUpdated()
     {
-
-
+        if (autoUpdate == false) return;
         Initialize();
         GenerateMesh();
-
     }
-    // ændrer kun på planetens farve
+
+    // Opdaterer planetens farver, når ColourSettings ændres
     public void OnColourSettingsUpdated()
     {
-
+        if (autoUpdate == false) return;
         Initialize();
         GenerateColours();
-
     }
 
-
-
+    // Genererer meshet til hver side af planeten
     void GenerateMesh()
     {
-        foreach (TerrainFace face in terrainFaces)
+        for (int i = 0; i < 6; i++)
         {
-            face.ConstructMesh();
+            if (meshFilters[i].gameObject.activeSelf)
+            {
+                terrainFaces[i].ConstructMesh();
+            }
         }
     }
 
+    // Genererer farverne på planeten ud fra de nuværende farveindstillinger
     void GenerateColours()
     {
         foreach (MeshFilter mf in meshFilters)
         {
             mf.GetComponent<MeshRenderer>().sharedMaterial.color = colourSettings.planetColour;
-
-
         }
     }
 

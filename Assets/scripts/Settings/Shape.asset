@@ -12,4 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cd15ff50a19aa4fae150dd5bebea1a, type: 3}
   m_Name: Shape
   m_EditorClassIdentifier: 
-  planetRadius: 2
+  planetRadius: 1.09
+  noiseLayers:
+  - enabled: 1
+    useFirstLayerAsMask: 0
+    noiseSettings:
+      filterType: 0
+      strength: 0.08
+      layers: 8
+      Baseroughness: 0.88
+      roughness: 6.68
+      percistance: 0.231
+      center: {x: 0, y: 0, z: 0}
+      minValue: 0.51
+  - enabled: 1
+    useFirstLayerAsMask: 1
+    noiseSettings:
+      filterType: 0
+      strength: -8.74
+      layers: 5
+      Baseroughness: 0.85
+      roughness: 2.95
+      percistance: 0.481
+      center: {x: 4.55, y: 0.84, z: 0.17}
+      minValue: 1.22
+  - enabled: 1
+    useFirstLayerAsMask: 1
+    noiseSettings:
+      filterType: 1
+      strength: 1.7
+      layers: 4
+      Baseroughness: 2
+      roughness: 3
+      percistance: 0.36
+      center: {x: 0, y: 0, z: 4.7}
+      minValue: 0
