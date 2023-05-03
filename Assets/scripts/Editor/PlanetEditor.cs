@@ -25,8 +25,10 @@ public class PlanetEditor : Editor
             if (check.changed) planet.GeneratePlanet();
         }
 
+        // Laver en knap for at updatere planeten
+        if (GUILayout.Button("Updater planet")) planet.GeneratePlanet();
         // Laver en knap for at generere en ny planeten.
-        if (GUILayout.Button("Generér planet")) planet.GeneratePlanet();
+        if (GUILayout.Button("Generér med samme farver planet")) planet.GeneraterRandomShape();
 
         // Vis indstillingerne for farver og form.
         DrawSettingsEditor(planet.shapeSettings, planet.OnShapeSettingsUpdated, ref planet.colourSettingsFoldout, ref shapeEditor);

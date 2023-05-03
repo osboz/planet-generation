@@ -1,6 +1,6 @@
-// Planet-klassen er ansvarlig for at generere planeten ud fra de givne ShapeSettings og ColourSettings.
-// Klassen opretter mesh-filtre og TerrainFace-objekter til hver side af planeten.
-// Klassen indeholder også metoder til at generere planetens mesh og farver.
+// The Planet class is responsible for generating the planet based on the given ShapeSettings and ColourSettings.
+// The class creates MeshFilters and TerrainFace objects for each side of the planet.
+// The class also contains methods to generate the planet's mesh and colors.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -9,40 +9,41 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
 
-    // Angiver antallet af quads i meshet
+    // Specifies the number of quads in the mesh
     [Range(2, 256)]
-    public int resolution = 10;
+    public int resolution = 64;
 
+    // Specifies which faces of the planet to render
     public enum FaceRenderMask { All, Top, Bottom, Left, Right, Front, Back };
     public FaceRenderMask faceRenderMask;
 
-    // Angiver, om planeten automatisk skal opdateres, når en indstilling ændres
+    // Specifies whether the planet should be automatically updated when a setting is changed
     public bool autoUpdate = false;
 
-    // Referencer til ColourSettings- og ShapeSettings-objekterne
+    // References to the ColourSettings and ShapeSettings objects
     public ColourSettings colourSettings;
     public ShapeSettings shapeSettings;
 
-    // Angiver, om farve- og form-indstillingerne er foldet ud i Unity-editoren
+    // Specifies whether the color and shape settings are expanded in the Unity editor
     [HideInInspector]
     public bool shapeSettingsFoldout, colourSettingsFoldout;
 
-    // Objektet, der genererer planetens form
+    // The object that generates the planet's shape
     ShapeGenerator shapeGenerator = new ShapeGenerator();
     ColourGenerator colourGenerator = new ColourGenerator();
 
-    // Mesh-filtrene og TerrainFace-objekterne til hver side af planeten
+    // MeshFilters and TerrainFace objects for each side of the planet
     [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
-    // Opretter ShapeGenerator- og TerrainFace-objekterne til hver side af planeten
+    // Creates ShapeGenerator and TerrainFace objects for each side of the planet
     void Initialize()
     {
         shapeGenerator.UpdateSettings(shapeSettings);
         colourGenerator.UpdateSettings(colourSettings);
 
-        // Opret meshFilters-arrayet, hvis det ikke allerede er gjort
+        // Create the meshFilters array if it hasn't already been created
         if (meshFilters == null || meshFilters.Length == 0)
         {
             meshFilters = new MeshFilter[6];
@@ -50,10 +51,10 @@ public class Planet : MonoBehaviour
 
         terrainFaces = new TerrainFace[6];
 
-        // Vector3-arrayet med retningsvektorer for hver side af planeten
+        // Vector3 array of direction vectors for each side of the planet
         Vector3[] directions = { Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
 
-        // Opretter mesh-filtre og TerrainFace-objekter til hver side af planeten
+        // Create MeshFilters and TerrainFace objects for each side of the planet
         for (int i = 0; i < 6; i++)
         {
             if (meshFilters[i] == null)
@@ -73,7 +74,7 @@ public class Planet : MonoBehaviour
         }
     }
 
-    // Genererer en helt ny planet med mesh og farver
+    // Generates a brand new planet with mesh and colors
     public void GeneratePlanet()
     {
         Initialize();
@@ -81,7 +82,7 @@ public class Planet : MonoBehaviour
         GenerateColours();
     }
 
-    // Opdaterer planetens form, når ShapeSettings ændres
+    // Updates the planet's shape when ShapeSettings are changed
     public void OnShapeSettingsUpdated()
     {
         if (autoUpdate == false) return;
@@ -89,7 +90,7 @@ public class Planet : MonoBehaviour
         GenerateMesh();
     }
 
-    // Opdaterer planetens farver, når ColourSettings ændres
+    // Updates the planet's colors when ColorSettings are changed
     public void OnColourSettingsUpdated()
     {
         if (autoUpdate == false) return;
@@ -97,26 +98,31 @@ public class Planet : MonoBehaviour
         GenerateColours();
     }
 
-    // Genererer meshet til hver side af planeten
+    // Generates the mesh for each face of the planet
     void GenerateMesh()
     {
         for (int i = 0; i < 6; i++)
         {
+            // Only construct mesh for active faces
             if (meshFilters[i].gameObject.activeSelf)
             {
                 terrainFaces[i].ConstructMesh();
             }
-        }
-
-        colourGenerator.updateElevation(shapeGenerator.elevationMinMax);
-
+        }// Update colour generator with elevation data
+        colourGenerator.UpdateElevation(shapeGenerator.elevationMinMax);
     }
 
-    // Genererer farverne på planeten ud fra de nuværende farveindstillinger
-
+    // Generates the colours for the planet based on the current colour settings
     void GenerateColours()
     {
-        colourGenerator.updateColours();
-
+        colourGenerator.UpdateColours();
     }
+
+    // Generates a new random shape for the planet and regenerates the mesh and colours
+    public void GeneraterRandomShape()
+    {
+        shapeSettings.randomShape();
+        GeneratePlanet();
+    }
+
 }
