@@ -6,6 +6,7 @@ public class RotateObject : MonoBehaviour
     [SerializeField] private bool rotate;
     [SerializeField] private float rotationSpeed = 10f;
 
+    //rotates the transform the script is attached to around the y-axis
     void Update()
     {
         if (!rotate) return;
@@ -13,6 +14,7 @@ public class RotateObject : MonoBehaviour
 
     }
 
+    // toggles rotation
     public void ToggleRotate()
     {
         rotate = !rotate;
