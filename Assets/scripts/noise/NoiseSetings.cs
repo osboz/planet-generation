@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class NoiseSettings {
+public class NoiseSettings
+{
 
     public enum FilterType { Simple, Ridgid };
     public FilterType filterType;
@@ -15,9 +16,9 @@ public class NoiseSettings {
     [System.Serializable]
     public class SimpleNoiseSettings
     {
-        public float strength = 1;
-        [Range(1, 8)]
-        public int numLayers = 1;
+        [Min(0)] public float strength = 1;
+
+        [Range(1, 8)] public int numLayers = 1;
         public float baseRoughness = 1;
         public float roughness = 2;
         public float persistence = .5f;

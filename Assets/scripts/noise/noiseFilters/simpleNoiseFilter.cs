@@ -15,27 +15,27 @@ public class simpleNoiseFilter : INoiseFilter
         this.settings = settings;
     }
 
-    // Evaluerer støjgeneratoren på et givent punkt i rummet.
+    // Evaluerer noisegeneratoren på et givent punkt i rummet.
     public float Evaluate(Vector3 point)
     {
-        float noiseValue = 0; // Støjværdien ved det givne punkt.
-        float frequency = settings.baseRoughness; // Grundfrekvensen for støjen.
-        float amplitude = 1; // Amplituden for støjen.
+        float noiseValue = 0; // noiseværdien ved det givne punkt.
+        float frequency = settings.baseRoughness; // Grundfrekvensen for noisen.
+        float amplitude = 1; // Amplituden for noisen.
 
-        // Gennemløb de enkelte lag af støj.
+        // Gennemløb de enkelte lag af noise.
         for (int i = 0; i < settings.numLayers; i++)
         {
-            // Evaluer støjværdien ved det givne punkt for det aktuelle lag.
+            // Evaluer noiseværdien ved det givne punkt for det aktuelle lag.
             float v = noise.Evaluate(point * frequency + settings.centre);
-            // Tilføj støjværdien til den samlede støjværdi, vægtet efter amplituden.
+            // Tilføj noiseværdien til den samlede noiseværdi, vægtet efter amplituden.
             noiseValue += (v + 1) * 0.5f * amplitude;
-            // Opdater frekvensen og amplituden for det næste lag af støj.
+            // Opdater frekvensen og amplituden for det næste lag af noise.
             frequency *= settings.roughness;
             amplitude *= settings.persistence;
         }
-        // Anvend en minimumsværdi og juster støjværdien efter det.
+        // Anvend en minimumsværdi og juster noiseværdien efter det.
         noiseValue = Mathf.Max(0, noiseValue - settings.minValue);
-        // Anvend styrken på støjværdien og returnér den.
+        // Anvend styrken på noiseværdien og returnér den.
         return noiseValue * settings.strength;
 
 
