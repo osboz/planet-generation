@@ -13,7 +13,6 @@ public class MouseRotateZoom : MonoBehaviour
     private bool isRotating;
     private Camera mainCamera;
 
-
     void Start()
     {
         mainCamera = Camera.main;
@@ -40,8 +39,8 @@ public class MouseRotateZoom : MonoBehaviour
             mouseOffset = (Input.mousePosition - mouseReference);
 
             // Apply the rotation based on the mouse movement
-            rotation.x = -mouseOffset.x * rotationSensitivity;
-            rotation.y = -mouseOffset.y * rotationSensitivity;
+            transform.RotateAround(transform.position, Vector3.up, rotationSensitivity * -mouseOffset.x);
+            transform.RotateAround(transform.position, Vector3.forward, rotationSensitivity * -mouseOffset.y);
 
             // Rotate the object
             transform.Rotate(rotation);
