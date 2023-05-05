@@ -97,6 +97,7 @@ public class TerrainFace
         mesh.RecalculateNormals();
     }
 
+    // Converts a point on the surface of a unit cube to a point on the surface of a unit sphere.
     public static Vector3 pointOnUnitCubeToPointOnUnitSphere(Vector3 p)
     {
         // Calculate the squares of the components of the input vector

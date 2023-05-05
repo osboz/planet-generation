@@ -18,7 +18,7 @@ public class Planet : MonoBehaviour
     public FaceRenderMask faceRenderMask;
 
     // Specifies whether the planet should be automatically updated when a setting is changed
-    public bool autoUpdate = false;
+    [SerializeField] private bool autoUpdate = false;
 
     // References to the ColourSettings and ShapeSettings objects
     public ColourSettings colourSettings;
@@ -29,8 +29,8 @@ public class Planet : MonoBehaviour
     public bool shapeSettingsFoldout, colourSettingsFoldout;
 
     // The object that generates the planet's shape
-    ShapeGenerator shapeGenerator = new ShapeGenerator();
     ColourGenerator colourGenerator = new ColourGenerator();
+    ShapeGenerator shapeGenerator = new ShapeGenerator();
 
     // MeshFilters and TerrainFace objects for each side of the planet
     [SerializeField, HideInInspector]
