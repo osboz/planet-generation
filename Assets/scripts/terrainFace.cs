@@ -5,24 +5,12 @@ using UnityEngine;
 // This class represents a face of a terrain mesh.
 public class TerrainFace
 {
-
-    // The shape generator used to generate the terrain.
-    ShapeGenerator shapeGenerator;
-
-    // The mesh used to represent the terrain.
-    Mesh mesh;
-
-    // The resolution of the terrain mesh.
-    int resolution;
-
-    // The local up direction of the terrain face.
-    Vector3 localUp;
-
-    // The first axis used to calculate the terrain mesh vertices.
-    Vector3 axisA;
-
-    // The second axis used to calculate the terrain mesh vertices.
-    Vector3 axisB;
+    ShapeGenerator shapeGenerator; // The shape generator used to generate the terrain.
+    Mesh mesh; // The mesh used to represent the terrain.
+    int resolution; // The resolution of the terrain mesh.
+    Vector3 localUp; // The local up direction of the terrain face.
+    Vector3 axisA; // The first axis used to calculate the terrain mesh vertices.
+    Vector3 axisB; // The second axis used to calculate the terrain mesh vertices.
 
     // Constructor for the class.
     public TerrainFace(ShapeGenerator shapeGenerator, Mesh mesh, int resolution, Vector3 localUp)

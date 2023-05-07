@@ -13,7 +13,6 @@ public class ShapeGenerator
     // The minimum and maximum elevation of the planet
     public minMax elevationMinMax;
 
-
     // Update the settings used to generate the planet's shape
     public void UpdateSettings(ShapeSettings settings)
     {
@@ -21,6 +20,7 @@ public class ShapeGenerator
 
         // Create an array of noise filters using the noise settings specified in the shape settings
         noiseFilters = new INoiseFilter[settings.noiseLayers.Length];
+        
         for (int i = 0; i < noiseFilters.Length; i++)
         {
             noiseFilters[i] = NoiseFilterFactory.CreateNoiseFilter(settings.noiseLayers[i].noiseSettings);

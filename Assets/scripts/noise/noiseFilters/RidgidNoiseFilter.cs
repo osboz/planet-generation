@@ -32,8 +32,8 @@ public class RidgeNoiseFilter : INoiseFilter
             v *= v;
             v *= weight;
             weight = Mathf.Clamp01(v * settings.weightMultiplier);
-
             noiseValue += v * amplitude;
+            
             // Opdater frekvensen og amplituden for det næste lag af støj.
             frequency *= settings.roughness;
             amplitude *= settings.persistence;

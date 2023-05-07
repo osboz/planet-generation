@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class simpleNoiseFilter : INoiseFilter
 {
-    // definerer en NoiseSetting som settings
-    NoiseSettings.SimpleNoiseSettings settings;
-
     // definerer og instantierer en ny Noise klasse
     Noise noise = new Noise();
 
+    // definerer en NoiseSetting som settings
+    NoiseSettings.SimpleNoiseSettings settings;
+
+    // contructor
     public simpleNoiseFilter(NoiseSettings.SimpleNoiseSettings settings)
     {
         this.settings = settings;
@@ -37,7 +38,6 @@ public class simpleNoiseFilter : INoiseFilter
         noiseValue = Mathf.Max(0, noiseValue - settings.minValue);
         // Anvend styrken på noiseværdien og returnér den.
         return noiseValue * settings.strength;
-
 
     }
 }
