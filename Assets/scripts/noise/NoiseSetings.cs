@@ -14,6 +14,7 @@ public class NoiseSettings
        
     // The settings for generating ridgid noise
     public RidgidNoiseSettings ridgidNoiseSettings;
+    public SimpleNoiseSettings simpleNoiseSettings;
 
     // A class to hold the settings for generating simple noise
     [System.Serializable]

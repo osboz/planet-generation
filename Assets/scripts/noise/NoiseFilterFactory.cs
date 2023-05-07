@@ -12,8 +12,8 @@ public static class NoiseFilterFactory
             // If the filter type is "Simple", create a new SimpleNoiseFilter object and return it
             case NoiseSettings.FilterType.Simple: return new SimpleNoiseFilter(settings.simpleNoiseSettings);
 
-            // If the filter type is "Ridgid", create a new RidgidNoiseFilter object and return it
-            case NoiseSettings.FilterType.Ridgid: return new RidgidNoiseFilter(settings.ridgidNoiseSettings);
+            // If the filter type is "Ridgid", create a new RidgeNoiseFilter object and return it
+            case NoiseSettings.FilterType.Ridgid: return new RidgeNoiseFilter(settings.ridgidNoiseSettings);
         }
 
         // If the filter type is not recognized, return null

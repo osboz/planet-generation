@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class simpleNoiseFilter : INoiseFilter
+public class SimpleNoiseFilter : INoiseFilter
 {
     // definerer og instantierer en ny Noise klasse
     Noise noise = new Noise();
@@ -11,7 +11,7 @@ public class simpleNoiseFilter : INoiseFilter
     NoiseSettings.SimpleNoiseSettings settings;
 
     // contructor
-    public simpleNoiseFilter(NoiseSettings.SimpleNoiseSettings settings)
+    public SimpleNoiseFilter(NoiseSettings.SimpleNoiseSettings settings)
     {
         this.settings = settings;
     }
